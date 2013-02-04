@@ -187,6 +187,17 @@ void World::dump(){
   // 	    << getENEMY(1,1) << ", "
   // 	    << getENEMY(1,2) << std::endl;
 
+  // std::cout << "XY :"
+  // 	    << getXY(0) << ", "
+  // 	    << getXY(1) << std::endl;
+  // std::cout << "BXY :"
+  // 	    << getBXY(0) << ", "
+  // 	    << getBXY(1) << std::endl;
+  // std::cout << "ABSANGLE :"
+  // 	    << getABSANGLE() << std::endl;
+  // std::cout << "BANGLE :"
+  // 	    << getBANGLE() << std::endl;
+
   // std::cout << "ACC_Sum :"
   // 	    << getACC_Sum(0, 10) << ", "
   // 	    << getACC_Sum(1, 10) << ", "
