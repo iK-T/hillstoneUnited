@@ -13,7 +13,7 @@ Drawingクラスでは,RoboVizのDrawing機能を使うことでモニターに�
 
  Drawingのクラス図は以下のようになっています：
 
-![Drawingクラス図](image/DrawingClassDiagram.png "Drawingクラス図")
+![Drawingクラス図](images/DrawingClassDiagram.png "Drawingクラス図")
 
 
 ---
@@ -21,7 +21,7 @@ Drawingクラスでは,RoboVizのDrawing機能を使うことでモニターに�
 
  Drawingの流れは至ってシンプルになっています：
  
-![Drawingアップデート図](image/DrawingUpdateFlow.png "Drawingアップデート図")
+![Drawingアップデート図](images/DrawingUpdateFlow.png "Drawingアップデート図")
 
 なお,
 コンストラクタでサーバのポート32769につなぐ(コンストラクタでソケット接続)
