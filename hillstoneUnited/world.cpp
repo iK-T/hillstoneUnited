@@ -909,7 +909,7 @@ void World::Perception::calcuratePerception(World& world){
       double *ball = BAL;
       bangle = absangle + ball[1];
       bxy[0] = xy[0] + ball[0] * cos(bangle*M_PI/180);
-      bxy[1] = xy[1] + ball[1] * cos(bangle*M_PI/180);
+      bxy[1] = xy[1] + ball[0] * sin(bangle*M_PI/180);
     }
   }else if(confEGL(world) == 0 && confEFL(world) == 0){
 
@@ -944,7 +944,7 @@ void World::Perception::calcuratePerception(World& world){
       double *ball = BAL;
       bangle = absangle + ball[1];
       bxy[0] = xy[0] + ball[0] * cos(bangle*M_PI/180);
-      bxy[1] = xy[1] + ball[1] * sin(bangle*M_PI/180);
+      bxy[1] = xy[1] + ball[0] * sin(bangle*M_PI/180);
     }
   }else if(confEGR(world) == 0 && confEFR(world) == 0){
 
@@ -977,7 +977,7 @@ void World::Perception::calcuratePerception(World& world){
       double *ball = BAL;
       bangle = absangle + ball[1];
       bxy[0] = xy[0] + ball[0] * cos(bangle*M_PI/180);
-      bxy[1] = xy[1] + ball[1] * sin(bangle*M_PI/180);
+      bxy[1] = xy[1] + ball[0] * sin(bangle*M_PI/180);
     }
   }
 
