@@ -1,6 +1,6 @@
 #include "defend.hpp"
 
-//#define TEST
+#define TEST
 
 Defend::Defend(World& w, double _initpos[]){
   finish_flag = false;
@@ -69,7 +69,7 @@ void Defend::judgement(World& w){
 
   if(inTerritory()){
     //    std::cout << "in my Territory." << std::endl;
-    if(dist < 10.0){
+    if(dist < 12.0){
       if(balposconf==300 && myposconf==300){
         elementList.push_back(new TicktackBase("TLEFT", 2));
       }
@@ -100,18 +100,8 @@ void Defend::judgement(World& w){
           else{
             if(bal[0] < 2.0){
 	      //              std::cout << "chuuto hanpa" << std::endl;
-            // elementList.push_back(new RunTo(w, ballpos));
-              if(bal[1] < -15){
-                elementList.push_back(new TicktackBase("TRIGHT", t_count));
-              }
-              else if(bal[1] > 15){
-                elementList.push_back(new TicktackBase("TLEFT", t_count));
-              }
-              else{
-		//		elementList.push_back(new SequenceMovement("DUMMY"));
-		//                elementList.push_back(new TicktackBase("DRIBBLE", 5));
-		elementList.push_back(new OdensWalk(ballpos));
-              }
+	      // elementList.push_back(new RunTo(w, ballpos));
+	      elementList.push_back(new OdensWalk(ballpos));
             }else{
 	      //              std::cout << "not close to ball" << std::endl;
               elementList.push_back(new RunToBall(w));
@@ -167,13 +157,16 @@ void Defend::judgement(World& w){
   // elementList.push_back(new SequenceMovement("DUMMY"));
   // elementList.push_back(new SequenceMovement("LAROUND"));
 
+
 #endif
 #ifdef TEST
-  double hoge[2] = {0.0, 0.0};
-  hoge[0] = initpos[0] + 1;
-  hoge[1] = initpos[1];
+  double hoge[2] = {-10.0, 0.0};
+  // elementList.push_back(new TicktackBase("DRIBBLE", 6));
+  // elementList.push_back(new TicktackBase("SLOW_FORWARD", 10));
+  // elementList.push_back(new TicktackBase("FORWARD", 20));
+  // elementList.push_back(new GABase("GA_FORWARD", 50));
+
   elementList.push_back(new OdensWalk(hoge));
-  elementList.push_back(new GABase("GA_FORWARD", 5));
 
 #endif
 }
