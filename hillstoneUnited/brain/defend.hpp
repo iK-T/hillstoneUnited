@@ -44,6 +44,8 @@ private:
 
   double friends[11][4];
   double enemy[11][4];
+  int friends_conf[11];
+  int enemy_conf[11];
 
    bool beam_flag;
   bool start_flag;
@@ -56,6 +58,7 @@ private:
   bool towardEnemy();
   bool inDanger();
   int getInvader();
+  int getFriendsNearBall();
 
   void judgement(World& w);
   void updateFinishFlag(World& w);
