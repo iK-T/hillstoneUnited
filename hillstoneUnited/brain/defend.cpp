@@ -67,7 +67,6 @@ void Defend::judgement(World& w){
 
   judgeStandup(w);
 
-#ifndef TEST
 #ifdef LAB
 
   // elementList.push_back(new TicktackBase("TLEFT", 2));
@@ -162,17 +161,14 @@ void Defend::judgement(World& w){
 #endif
 #ifdef TEST2
 
-  std::cout << "ballpos = " << ballpos[0] << std::endl;
   if(balposconf == 300){
     elementList.push_back(new SequenceMovement("LAROUNDREADY"));
   }
   else{
     if(inDanger()){
-      std::cout << "in danger" << std::endl;
       if(inTerritory()){
 	int invader = getInvader();
 	if(invader > 0){
-	  std::cout << "invador" << std::endl;
 	  elementList.push_back(new RunToEnemy(w, invader));
 	  elementList.push_back(new OdensWalk(ballpos));
 	}
@@ -184,12 +180,10 @@ void Defend::judgement(World& w){
 	}
       }
       else{
-	// write here
 	elementList.push_back(new SequenceMovement("LAROUNDREADY"));
       }
     }
     else{
-      std::cout << "not in danger" << std::endl;
       if(!atHome()){
 	double home[2];
 	home[0] = initpos[0];
@@ -287,6 +281,10 @@ int Defend::getInvader(){
   else{
     return 0;
   }
+}
+
+int Defend::checkFriendsGoal(){
+  return 10000;
 }
 
 std::string Defend::getNextAngle(World& w) {

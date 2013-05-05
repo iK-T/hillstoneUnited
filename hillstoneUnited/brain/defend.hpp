@@ -54,6 +54,7 @@ private:
   bool towardEnemy();
   bool inDanger();
   int getInvader();
+  int checkFriendsGoal();
 
   void judgement(World& w);
   void updateFinishFlag(World& w);
