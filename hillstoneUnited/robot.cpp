@@ -24,17 +24,17 @@ std::string Robot::getNextAngle(std::string &msg){
   //return "hogehoge in robot"; // I'll change it
 
   //  static double initpos[3] = {-10.5, 0.0, 0.0};
-  static double initpos1[3] = {-13.5,0.0, 0.0};
-  static double initpos2[3] = {-10.5,5.0, 0.0};
-  static double initpos3[3] = {-10.5,-5.0, 0.0};
-  static double initpos4[3] = {-7.5,3.0, 0.0};
-  static double initpos5[3] = {-7.5,0.0, 0.0};
-  static double initpos6[3] = {-7.5,-3.0, 0.0};
+  static double initpos1[3] = {-14.5,0.0, 0.0};
+  static double initpos2[3] = {-11.5,3.0, 0.0};
+  static double initpos3[3] = {-11.5,-3.0, 0.0};
+  static double initpos4[3] = {-11.5,0.0, 0.0};
+  static double initpos5[3] = {-8.5,1.0, 0.0};
+  static double initpos6[3] = {-8.5,-1.0, 0.0};
   static double initpos7[3] = {-5.5,2.0, 0.0};
   static double initpos8[3] = {-5.5,-2.0, 0.0};
-  static double initpos9[3] = {-3.5,5.0, 0.0};
-  static double initpos10[3] = {-3.5,0.0, 0.0};
-  static double initpos11[3] = {-3.5,-5.0, 0.0};
+  static double initpos9[3] = {-2.5,3.0, 0.0};
+  static double initpos10[3] = {-0.5,0.0, 0.0};
+  static double initpos11[3] = {-2.5,-3.0, 0.0};
 
   /*
 
@@ -59,14 +59,17 @@ std::string Robot::getNextAngle(std::string &msg){
 
       switch(world.getUnum()){
       case 1:
-	mainbrain = new Defend(world, initpos1);
-	break;
-      case 2:
+	//	mainbrain = new Keeper(world, initpos1);
 	mainbrain = new Defend(world, initpos2);
 	break;
-      case 3:
+      case 2:
 	mainbrain = new Defend(world, initpos3);
 	break;
+      case 3:
+	mainbrain = new Defend(world, initpos4);
+	break;
+
+
       case 4:
 	mainbrain = new Defend(world, initpos4);
 	break;
@@ -74,7 +77,7 @@ std::string Robot::getNextAngle(std::string &msg){
 	mainbrain = new Defend(world, initpos5);
 	break;
       case 6:
-	mainbrain = new Attack(world, initpos6);
+	mainbrain = new Defend(world, initpos6);
 	break;
       case 7:
 	mainbrain = new Attack(world, initpos7);
@@ -102,14 +105,17 @@ std::string Robot::getNextAngle(std::string &msg){
 	//      mainbrain = new Defend(world, initpos);
 	switch(world.getUnum()){
 	case 1:
-	  mainbrain = new Defend(world, initpos1);
-	  break;
-	case 2:
+	  //	  mainbrain = new Keeper(world, initpos1);
 	  mainbrain = new Defend(world, initpos2);
 	  break;
-	case 3:
+	case 2:
 	  mainbrain = new Defend(world, initpos3);
 	  break;
+	case 3:
+	  mainbrain = new Defend(world, initpos4);
+	  break;
+
+
 	case 4:
 	  mainbrain = new Defend(world, initpos4);
 	  break;
@@ -117,7 +123,7 @@ std::string Robot::getNextAngle(std::string &msg){
 	  mainbrain = new Defend(world, initpos5);
 	  break;
 	case 6:
-	  mainbrain = new Attack(world, initpos6);
+	  mainbrain = new Defend(world, initpos6);
 	  break;
 	case 7:
 	  mainbrain = new Attack(world, initpos7);
