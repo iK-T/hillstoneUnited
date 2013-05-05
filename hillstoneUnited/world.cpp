@@ -1258,7 +1258,7 @@ double World::getEGL(int index) const{
       }
     }
     //    return 0.0;
-    return ACC_sentinel[index];
+    return EGL_sentinel[index];
   }else if(side == RIGHT){
     for(int i=0; i<SIZE; i++){
       if(!isnan((*(deqPerception[SIZE-i-1])).G2L[index])){
@@ -1266,7 +1266,7 @@ double World::getEGL(int index) const{
       }
     }
     //    return 0.0;
-    return ACC_sentinel[index];
+    return EGL_sentinel[index];
   }else{
     std::cout << "World::Perception::getEGL UNKNOWN SIDE!" << std::endl;
     return 0.0;
@@ -1520,7 +1520,8 @@ double World::getGYR(int index) const{
     }
   }
 
-  return 0.0;
+  //  return 0.0;
+  return GYR_sentinel[index];
 }
 
 double World::getACC(int index) const{
