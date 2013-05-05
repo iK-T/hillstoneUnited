@@ -53,7 +53,7 @@ void RunTo::judgement(World& w){
 
     if(conf_XY == 300){
       elementList.push_back(new TicktackBase("TLEFT", 2));
-      elementList.push_back(new SequenceMovement("LAROUND"));
+      elementList.push_back(new SequenceMovement("LAROUNDREADY"));
     }
     else{
       if(dist > 2.0){

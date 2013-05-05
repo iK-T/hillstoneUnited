@@ -175,8 +175,18 @@ void Defend::judgement(World& w){
 	else{
 	  elementList.push_back(new RunToBall(w));
 	  elementList.push_back(new AdjustToBall(w));
-	  elementList.push_back(new SequenceMovement("READY"));
-	  elementList.push_back(new GABase("GA_FORWARD", 10));
+	  if(abs(ballpos[0]-15.0) > 5.0 && abs(ballpos[1]-0.0) > 5.0){
+	    elementList.push_back(new SequenceMovement("READY"));
+	    elementList.push_back(new GABase("GA_FORWARD", 10));
+	  }
+	  else{
+	    if(bal[1]>0){
+	      elementList.push_back(new KickTo(w, 90));
+	    }
+	    else{
+	      elementList.push_back(new KickTo(w, -90));
+	    }
+	  }
 	}
       }
       else{
@@ -283,9 +293,6 @@ int Defend::getInvader(){
   }
 }
 
-int Defend::checkFriendsGoal(){
-  return 10000;
-}
 
 std::string Defend::getNextAngle(World& w) {
   std::stringstream ss;

@@ -25,6 +25,9 @@ std::string Robot::getNextAngle(std::string &msg){
   static double initpos10[3] = {-0.5,0.0, 0.0};
   static double initpos11[3] = {-2.5,-3.0, 0.0};
 
+  Drawing drawing;
+  drawing.draw(w);
+
   /*
 
   mainbrain = new TestBrain(world, initpos9);
