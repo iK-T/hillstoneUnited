@@ -1,9 +1,9 @@
 #include "defend.hpp"
 
 // choose the one, and off the rest.
-//#define LAB
+#define LAB
 //#define TEST2 // default, TEST1 deleted
-#define TEST3 // prototype
+//#define TEST3 // prototype
 
 Defend::Defend(World& w, double _initpos[]){
   finish_flag = false;
@@ -77,7 +77,9 @@ void Defend::judgement(World& w){
 
   double hoge[2] = {-14.0, 0.0};
 
-  elementList.push_back(new OdensWalk(hoge));
+  //  elementList.push_back(new OdensWalk("BALL", 0.0, 0.0));
+  //  elementList.push_back(new AdjustToBall(w));
+  elementList.push_back(new OdensWalk("BALL", 10.0, 90.0));
 
 #endif
 #ifdef TEST2
@@ -96,7 +98,7 @@ void Defend::judgement(World& w){
 	else{
 	  elementList.push_back(new RunToBall(w));
 	  elementList.push_back(new AdjustToBall(w));
-	  if(abs(bxy[0]-(-15.0)) > 5.0 && abs(bxy[1]-0.0) > 5.0){
+	  if(abs(bxy[0]-(-15.0)) > 2.0 && abs(bxy[1]-0.0) > 2.0){
 	    elementList.push_back(new SequenceMovement("READY"));
 	    elementList.push_back(new GABase("GA_FORWARD", 10));
 	  }
@@ -150,16 +152,18 @@ void Defend::judgement(World& w){
 	if(getFriendsNearBall() > 3){
 	  int invader = getInvader();
 	  if(invader > 0){
-	    elementList.push_back(new RunToEnemy(w, invader));
-	    elementList.push_back(new OdensWalk(bxy));
+	    //elementList.push_back(new RunToEnemy(w, invader));
+	    elementList.push_back(new OdensWalk(invader));
+	    //elementList.push_back(new OdensWalk(bxy));
 	  }
 	  else{
-	    elementList.push_back(new OdensWalk(bxy));
+	    //	    elementList.push_back(new OdensWalk(bxy));
+	    elementList.push_back(new OdensWalk("BALL"));
 	    elementList.push_back(new KickTo(w, 0.0));
 	  }
 	}
 	else{
-	  
+	  elementList.push_back(new AdjustToBall(w));
 	}
       }
     }
