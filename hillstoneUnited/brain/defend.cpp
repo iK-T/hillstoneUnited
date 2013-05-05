@@ -11,15 +11,16 @@ Defend::Defend(World& w, double _initpos[]){
   beam_flag = false;
   start_flag = false;
 
-  ballpos[0] = 0.0;
-  ballpos[1] = 0.0;
+  xy[0] = w.getXY(0);
+  xy[1] = w.getXY(1);
+  bxy[0] = w.getBXY(0);
+  bxy[1] = w.getBXY(1);
   bal[0] = w.getBAL(0);
   bal[1] = w.getBAL(1);
   bal[2] = w.getBAL(2);
-  mypos[0] = 0.0;
-  mypos[1] = 0.0;
-  balposconf = w.confBAL();
-  myposconf = w.confXY();
+  bxy_conf = w.confBAL();
+  xy_conf = w.confXY();
+  bal_conf = w.confBAL();
   angle = w.getABSANGLE();
   dist = 0.0;
 
@@ -42,18 +43,18 @@ Defend::Defend(World& w, double _initpos[]){
 
 void Defend::judgement(World& w){
 
-  ballpos[0] = w.getBXY_AVE(0);
-  ballpos[1] = w.getBXY_AVE(1);
+  bxy[0] = w.getBXY_AVE(0);
+  bxy[1] = w.getBXY_AVE(1);
   bal[0] = w.getBAL(0);
   bal[1] = w.getBAL(1);
   bal[2] = w.getBAL(2);
-  mypos[0] = w.getXY_AVE(0);
-  mypos[1] = w.getXY_AVE(1);
-  balposconf = w.confBAL();
-  myposconf = w.confXY();
+  xy[0] = w.getXY_AVE(0);
+  xy[1] = w.getXY_AVE(1);
+  bxy_conf = w.confBAL();
+  xy_conf = w.confXY();
   angle = w.getABSANGLE();
-  dist = sqrt(((initpos[0] - mypos[0])*(initpos[0] - mypos[0]))
-	      + ((initpos[1] - mypos[1])*(initpos[1] - mypos[1])));
+  dist = sqrt(((initpos[0] - xy[0])*(initpos[0] - xy[0]))
+	      + ((initpos[1] - xy[1])*(initpos[1] - xy[1])));
 
   t_count = abs(15 * bal[1] / 360);
   if(t_count == 0){
@@ -71,11 +72,14 @@ void Defend::judgement(World& w){
 
 #ifdef LAB
 
-  if(w.ballpos[0] > 1.5){
-    elementList.push_back(new OdensWalk(ballpos, 1000));
+  if(bxy_conf != 300 && bal[0] < 1.5){
+    std::cout << "near ball " << bal[0] << std::endl;
+    elementList.push_back(new OdensWalk(bxy));
   }
   else{
-    
+    std::cout << "not near ball " << bal[0] << std::endl;
+    //    elementList.push_back(new SequenceMovement("DUMMY"));
+    elementList.push_back(new SequenceMovement("LAROUNDREADY"));
   }
 
 
@@ -85,10 +89,10 @@ void Defend::judgement(World& w){
 
   if(inTerritory()){
     //    std::cout << "in my Territory." << std::endl;
-    if(balposconf==300 && myposconf==300){
+    if(bxy_conf==300 && xy_conf==300){
       elementList.push_back(new TicktackBase("TLEFT", 2));
     }
-    else if(balposconf==300){
+    else if(bxy_conf==300){
       elementList.push_back(new TicktackBase("TLEFT", t_count));
       elementList.push_back(new SequenceMovement("LAROUND"));
     }
@@ -116,7 +120,7 @@ void Defend::judgement(World& w){
 	  if(bal[0] < 2.0){
 	    //              std::cout << "chuuto hanpa" << std::endl;
 	    // elementList.push_back(new RunTo(w, ballpos));
-	    elementList.push_back(new OdensWalk(ballpos));
+	    elementList.push_back(new OdensWalk(bxy));
 	  }else{
 	    //              std::cout << "not close to ball" << std::endl;
 	    elementList.push_back(new RunToBall(w));
@@ -126,17 +130,17 @@ void Defend::judgement(World& w){
     }
   }else{
     //    std::cout << "not in my Territory." << std::endl;
-    if(balposconf==300 && myposconf==300){
+    if(bxy_conf==300 && xy_conf==300){
       elementList.push_back(new SequenceMovement("DUMMY"));
       elementList.push_back(new SequenceMovement("LAROUND"));
       elementList.push_back(new TicktackBase("TLEFT", 2));
     }
     else{
       if(atHome()){
-        if(balposconf==300 && myposconf==300){
+        if(bxy_conf==300 && xy_conf==300){
           elementList.push_back(new TicktackBase("TLEFT", 2));
         }
-        else if(myposconf==300){
+        else if(xy_conf==300){
           elementList.push_back(new SequenceMovement("DUMMY"));
           elementList.push_back(new SequenceMovement("LAROUND"));
         }
@@ -165,7 +169,7 @@ void Defend::judgement(World& w){
 #endif
 #ifdef TEST2
 
-  if(balposconf == 300){
+  if(bxy_conf == 300){
     elementList.push_back(new SequenceMovement("LAROUNDREADY"));
   }
   else{
@@ -174,12 +178,12 @@ void Defend::judgement(World& w){
 	int invader = getInvader();
 	if(invader > 0){
 	  elementList.push_back(new RunToEnemy(w, invader));
-	  elementList.push_back(new OdensWalk(ballpos));
+	  elementList.push_back(new OdensWalk(bxy));
 	}
 	else{
 	  elementList.push_back(new RunToBall(w));
 	  elementList.push_back(new AdjustToBall(w));
-	  if(abs(ballpos[0]-15.0) > 5.0 && abs(ballpos[1]-0.0) > 5.0){
+	  if(abs(bxy[0]-(-15.0)) > 5.0 && abs(bxy[1]-0.0) > 5.0){
 	    elementList.push_back(new SequenceMovement("READY"));
 	    elementList.push_back(new GABase("GA_FORWARD", 10));
 	  }
@@ -224,7 +228,7 @@ void Defend::judgement(World& w){
 #endif
 #ifdef TEST3
 
-  if(balposconf == 300){
+  if(bxy_conf == 300){
     elementList.push_back(new SequenceMovement("LAROUNDREADY"));
   }
   else{
@@ -233,10 +237,10 @@ void Defend::judgement(World& w){
 	int invader = getInvader();
 	if(invader > 0){
 	  elementList.push_back(new RunToEnemy(w, invader));
-	  elementList.push_back(new OdensWalk(ballpos));
+	  elementList.push_back(new OdensWalk(bxy));
 	}
 	else{
-	  elementList.push_back(new OdensWalk(ballpos));
+	  elementList.push_back(new OdensWalk(bxy));
 	}
       }
     }
@@ -260,8 +264,8 @@ void Defend::judgement(World& w){
 }
 
 bool Defend::inTerritory(){
-  if(abs(ballpos[0] - initpos[0]) < 8.0 &&
-     abs(ballpos[1] - initpos[1]) < 8.0){
+  if(abs(bxy[0] - initpos[0]) < 8.0 &&
+     abs(bxy[1] - initpos[1]) < 8.0){
     return true;
   }else{
     return false;
@@ -269,8 +273,8 @@ bool Defend::inTerritory(){
 }
 
 bool Defend::atHome(){
-  if(abs(mypos[0] - initpos[0]) < 0.5 &&
-     abs(mypos[1] - initpos[1]) < 0.5){
+  if(abs(xy[0] - initpos[0]) < 0.5 &&
+     abs(xy[1] - initpos[1]) < 0.5){
     return true;
   }else{
     return false;
@@ -294,7 +298,7 @@ bool Defend::towardEnemy(){
 }
 
 bool Defend::inDanger(){
-  if(ballpos[0] < -(field_x/6)){
+  if(bxy[0] < -(field_x/6)){
     return true; 
  }else{
     return false;
@@ -302,11 +306,6 @@ bool Defend::inDanger(){
 }
 
 void Defend::updateFinishFlag(World& w){
-  // if(!inTerritory() && atHome()){
-  //   finish_flag = true;
-  // }else{
-  //   finish_flag = false;
-  // }
   judgement(w);
 }
 

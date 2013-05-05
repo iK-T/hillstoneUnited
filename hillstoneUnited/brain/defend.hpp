@@ -28,17 +28,18 @@ public:
 
 private:
   double initpos[3];
-  double ballpos[2];
-  double mypos[2];
   double bal[3];
+  double xy[2];
+  double bxy[2];
   double angle;
   double dist;
 
   int field_x;
   int field_y;
 
-  int balposconf;
-  int myposconf;
+  int bal_conf;
+  int bxy_conf;
+  int xy_conf;
   int t_count;
 
   double friends[11][4];
