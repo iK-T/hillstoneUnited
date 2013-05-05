@@ -1,9 +1,10 @@
 #include "defend.hpp"
 
 // choose the one, and off the rest.
-//#define LAB
+#define LAB
 //#define TEST1 // Defend: Default ver.
-#define TEST2 // prototype
+//#define TEST2 // prototype
+//#define TEST3 // prototype2
 
 Defend::Defend(World& w, double _initpos[]){
   finish_flag = false;
@@ -70,11 +71,13 @@ void Defend::judgement(World& w){
 
 #ifdef LAB
 
-  // elementList.push_back(new TicktackBase("TLEFT", 2));
-  // elementList.push_back(new SequenceMovement("LAROUNDREADY"));
-  // elementList.push_back(new SequenceMovement("READY"));
-  // elementList.push_back(new TicktackBase("FORWARD", 5));
-  // elementList.push_back(new GABase("GA_FORWARD", 100));
+  if(w.ballpos[0] > 1.5){
+    elementList.push_back(new OdensWalk(ballpos, 1000));
+  }
+  else{
+    
+  }
+
 
 #endif
 #ifdef TEST1
@@ -217,6 +220,40 @@ void Defend::judgement(World& w){
       }
     }
   }
+
+#endif
+#ifdef TEST3
+
+  if(balposconf == 300){
+    elementList.push_back(new SequenceMovement("LAROUNDREADY"));
+  }
+  else{
+    if(inDanger()){
+      if(inTerritory()){
+	int invader = getInvader();
+	if(invader > 0){
+	  elementList.push_back(new RunToEnemy(w, invader));
+	  elementList.push_back(new OdensWalk(ballpos));
+	}
+	else{
+	  elementList.push_back(new OdensWalk(ballpos));
+	}
+      }
+    }
+    else{
+      if(!atHome()){
+	double home[2];
+	home[0] = initpos[0];
+	home[1] = initpos[1];
+	elementList.push_back(new OdensWalk(home));
+      }
+      else{
+	elementList.push_back(new SequenceMovement("LAROUNDREADY"));
+      }
+    }
+  }
+
+
 
 #endif
 
