@@ -197,11 +197,12 @@ void Defend::judgement(World& w){
       elementList.push_back(new OdensWalk(invader));
     }
     else{
-      elementList.push_back(new OdensWalk("BALL"));
+      elementList.push_back(new OdensWalk("BALL", 5.0, 0.0));
     }
   }else{
     if(bxy[0] < -9.0 && getFriendsNearBall() < 3){
-      elementList.push_back(new OdensWalk("BALL"));
+      elementList.push_back(new OdensWalk("BALL", -0.5, 0.0));
+      elementList.push_back(new GABase("GA_FORWARD", 10));
     }
     else{
       if(!atHome()){
