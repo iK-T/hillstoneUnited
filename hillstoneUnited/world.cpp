@@ -1716,8 +1716,7 @@ double World::getBXY_AVE(int index) const{
     return (sum / counter);
   }
 
-  //  return 0.0;
-  return BXY_sentinel[index];
+  return 0.0;
 }
 
 double World::getACC_Sum(int index, int num) const{
