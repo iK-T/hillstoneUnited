@@ -1,9 +1,10 @@
 #include "defend.hpp"
 
 // choose the one, and off the rest.
-#define LAB
+//#define LAB
 //#define TEST2 // default, TEST1 deleted
 //#define TEST3 // prototype
+#define TEST1
 
 Defend::Defend(World& w, double _initpos[]){
   finish_flag = false;
@@ -75,11 +76,15 @@ void Defend::judgement(World& w){
 
 #ifdef LAB
 
-  double hoge[2] = {-14.0, 0.0};
-
   //  elementList.push_back(new OdensWalk("BALL", 0.0, 0.0));
   //  elementList.push_back(new AdjustToBall(w));
-  elementList.push_back(new OdensWalk("BALL", 10.0, 90.0));
+  // elementList.push_back(new OdensWalk("BALL", 1.0, 1.0));
+  // elementList.push_back(new SequenceMovement("LAROUNDREADY"));
+  if(bxy_conf == 300 || w.getBXY_AVE(0) == 0.0){
+    elementList.push_back(new SequenceMovement("LAROUND"));
+  }
+  elementList.push_back(new OdensWalk("BALL"));
+
 
 #endif
 #ifdef TEST2
@@ -143,29 +148,60 @@ void Defend::judgement(World& w){
 #endif
 #ifdef TEST3 // prototype
 
-  if(bxy_conf == 300){
-    elementList.push_back(new SequenceMovement("LAROUNDREADY"));
+  check();
+
+  if(inDanger()){
+    if(getFriendsNearBall() > 2){
+      if(inTerritory()){
+	elementList.push_back(new OdensWalk("BALL"));
+      }
+      else{
+	double home[2];
+	home[0] = initpos[0];
+	home[1] = initpos[1];
+	elementList.push_back(new OdensWalk(home));
+      }
+    }
+    else{
+      int invader = getInvader();
+      if(invader > 0){
+	elementList.push_back(new OdensWalk(invader));
+      }
+      else{
+	elementList.push_back(new OdensWalk("BALL"));
+	// elementList.push_back(new KickTo(w, 0.0));
+      }
+    }
   }
   else{
-    if(inDanger()){
-      if(inTerritory()){
-	if(getFriendsNearBall() > 3){
-	  int invader = getInvader();
-	  if(invader > 0){
-	    //elementList.push_back(new RunToEnemy(w, invader));
-	    elementList.push_back(new OdensWalk(invader));
-	    //elementList.push_back(new OdensWalk(bxy));
-	  }
-	  else{
-	    //	    elementList.push_back(new OdensWalk(bxy));
-	    elementList.push_back(new OdensWalk("BALL"));
-	    elementList.push_back(new KickTo(w, 0.0));
-	  }
-	}
-	else{
-	  elementList.push_back(new AdjustToBall(w));
-	}
-      }
+    if(!atHome()){
+      double home[2];
+      home[0] = initpos[0];
+      home[1] = initpos[1];
+      elementList.push_back(new OdensWalk(home));
+    }
+    else{
+      elementList.push_back(new SequenceMovement("LAROUNDREADY"));
+    }
+  }
+
+
+
+#endif
+#ifdef TEST1
+
+  check();
+  if(inTerritory()){
+    int invader = getInvader();
+    if(invader > 0){
+      elementList.push_back(new OdensWalk(invader));
+    }
+    else{
+      elementList.push_back(new OdensWalk("BALL"));
+    }
+  }else{
+    if(bxy[0] < -9.0 && getFriendsNearBall() < 3){
+      elementList.push_back(new OdensWalk("BALL"));
     }
     else{
       if(!atHome()){
@@ -179,8 +215,6 @@ void Defend::judgement(World& w){
       }
     }
   }
-
-
 
 #endif
 
@@ -197,8 +231,8 @@ bool Defend::inTerritory(){
 }
 
 bool Defend::atHome(){
-  if(abs(xy[0] - initpos[0]) < 0.5 &&
-     abs(xy[1] - initpos[1]) < 0.5){
+  if(abs(xy[0] - initpos[0]) < 0.8 &&
+     abs(xy[1] - initpos[1]) < 0.8){
     return true;
   }else{
     return false;
@@ -257,7 +291,7 @@ int Defend::getInvader(){
 int Defend::getFriendsNearBall(){
   int num = 0;
   for(int i=0; i<11; i++){
-    if(abs(friends[i][0] - bal[0]) < 5.0 &&
+    if(abs(friends[i][0] - bal[0]) < 1.5 &&
        abs(friends[i][1] - bal[1]) < 30 &&
        friends_conf[i] < 200){
       num++;
@@ -265,6 +299,12 @@ int Defend::getFriendsNearBall(){
   }
   
   return num;
+}
+
+void Defend::check(){
+  if(bxy_conf == 300 && xy_conf == 300){
+    elementList.push_back(new SequenceMovement("LAROUND"));
+  }
 }
 
 std::string Defend::getNextAngle(World& w) {

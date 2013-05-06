@@ -10,6 +10,7 @@
 #include "runtoball.hpp"
 #include "runtoenemy.hpp"
 #include "adjusttoball.hpp"
+#include "../movement/kick.hpp"
 #include "../movement/gabase.hpp"
 #include "../movement/standup.hpp"
 #include "../movement/odenswalk.hpp"
@@ -59,6 +60,7 @@ private:
   bool inDanger();
   int getInvader();
   int getFriendsNearBall();
+  void check();
 
   void judgement(World& w);
   void updateFinishFlag(World& w);
